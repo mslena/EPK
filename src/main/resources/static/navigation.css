@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    background-color: #00838f;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.navbar a {
+    color: #ecf0f1;
+    padding: 12px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.navbar a:hover {
+    background-color: #008B8B;
+    border-radius: 0;
+}
+
+.navbar a.active {
+    background-color: #006d75;
+    border-radius: 0;
+}

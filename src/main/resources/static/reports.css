@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #cfd8dc;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: black;
+}
+.report-controls {
+    background: white;
+    margin: 20px auto;
+    padding: 20px;
+    width: 80%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.report-controls form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.report-controls label {
+    margin-right: 5px;
+}
+
+.report-controls input,
+.report-controls select,
+.report-controls button {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.report-controls button {
+    background-color: #00838f;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.report-controls button:hover {
+    background-color: #006d75;
+}
+
+.chart-section {
+    width: 90%;
+    margin: 40px auto;
+}

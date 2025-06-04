@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="navigation.css" />
+</head>
+<body>
+<nav th:fragment="nav">
+<div class="navbar">
+    <a th:href="@{/reports}"
+       th:classappend="${requestURI.startsWith('/reports')} ? 'active' : ''">
+        Отчёты
+    </a>
+    <a th:href="@{/adminProduct}"
+       th:classappend="${requestURI.startsWith('/adminProduct')} ? 'active' : ''">
+        Продукция
+    </a>
+    <a th:href="@{/accounting}"
+       th:classappend="${requestURI.startsWith('/accounting')} ? 'active' : ''">
+        Учёт
+    </a>
+    <a th:href="@{/requests}"
+       th:classappend="${requestURI.startsWith('/requests')} ? 'active' : ''">
+        Заявки
+    </a>
+</div>
+</nav>
+</body>
+</html>

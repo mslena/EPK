@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Продукция</title>
+    <link rel="stylesheet" href="product.css"/>
+    <link rel="stylesheet" href="userNav.css" />
+</head>
+<body>
+<header>
+    <nav th:insert="~{userNav::nav}"/>
+</header>
+<h1>Подшипники</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Наименование</th>
+        <th>Артикул</th>
+        <th>Производитель</th>
+        <th>Количество</th>
+        <th>Тип подшипника</th>
+        <th>Цена</th>
+    </tr>
+    </thead>
+    <tbody id="requests-table-body" th:each = "product : ${product}">
+    <tr>
+        <td th:text = "${product.name}"></td>
+        <td th:text = "${product.articleNumber}"></td>
+        <td th:text = "${product.manufacturer}"></td>
+        <td th:text = "${product.quantity}"></td>
+        <td th:text = "${product.typeProduct}"></td>
+        <td th:text = "${product.price}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

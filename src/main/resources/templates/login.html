@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="login-container">
+    <form method="POST" class="login-form" action="/login">
+        <img src="images\logo.jpg" class="login-logo">
+        <h2>Вход в систему</h2>
+        <div th:if="${message}" class="alert" th:text="${message}"></div>
+        <input type="text" name="login" placeholder="Имя пользователя" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <button type="submit">Войти</button>
+        <p class="signup-link">Нет аккаунта? <a href="/registration">Зарегистрироваться</a></p>
+    </form>
+</div>
+</body>
+</html>

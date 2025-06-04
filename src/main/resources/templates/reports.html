@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Отчёты по подшипникам</title>
+    <link rel="stylesheet" href="/reports.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header>
+    <nav th:insert="~{adminNav::nav}"/>
+</header>
+<h1>Отчёты по подшипникам</h1>
+
+<section class="report-controls">
+    <form method="get" th:action="@{/reports/generate}">
+        <label for="reportType">Тип отчёта:</label>
+        <select name="reportType" id="reportType">
+            <option value="sales">Продажи</option>
+            <option value="defects">Остатки</option>
+        </select>
+
+        <label for="period">Период:</label>
+        <select name="period" id="period" onchange="toggleCustomDates()">
+            <option value="year">Год</option>
+            <option value="quarter">Квартал</option>
+            <option value="month">Месяц</option>
+            <option value="custom">Произвольный</option>
+        </select>
+
+        <div id="custom-dates" style="display: none;">
+            <label for="startDate">с:</label>
+            <input type="date" name="startDate" />
+            <label for="endDate">по:</label>
+            <input type="date" name="endDate" />
+        </div>
+
+        <button type="submit">Сформировать отчёт</button>
+        <button type="submit" formaction="/reports/download" formmethod="post">Скачать в Excel</button>
+    </form>
+</section>
+
+<section class="chart-section">
+    <canvas id="reportChart"></canvas>
+</section>
+
+<script>
+    function toggleCustomDates() {
+        const period = document.getElementById("period").value;
+        document.getElementById("custom-dates").style.display = (period === "custom") ? "block" : "none";
+    }
+
+    // Пример инициализации графика (замени на реальные данные)
+    const ctx = document.getElementById('reportChart');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май'],
+            datasets: [{
+                label: 'Продажи',
+                data: [120, 150, 180, 90, 200],
+                backgroundColor: 'red'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'График отчёта'
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

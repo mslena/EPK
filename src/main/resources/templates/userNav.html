@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Navigation</title>
+    <link rel="stylesheet" href="userNav.css" />
+</head>
+<body class="nav-body">
+<nav th:fragment="nav">
+    <div class="navbar">
+        <a th:href="@{/product}"
+           th:classappend="${requestURI.startsWith('/product')} ? 'active' : ''">
+            Подшипники
+        </a>
+        <a th:href="@{/basket}"
+           th:classappend="${requestURI.startsWith('/basket')} ? 'active' : ''">
+            Корзина
+        </a>
+        <a th:href="@{/user}"
+           th:classappend="${requestURI.startsWith('/user')} ? 'active' : ''">
+            Личный кабинет
+        </a>
+    </div>
+</nav>
+</body>
+</html>

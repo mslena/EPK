@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+    <link rel="stylesheet" href="basket.css"/>
+    <link rel="stylesheet" href="userNav.css" />
+</head>
+<body class="basket-body">
+<header>
+    <nav th:insert="~{userNav::nav}"/>
+</header>
+<h1>Ваша корзина</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Товар</th>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Итого</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${cartItems}">
+        <td th:text="${item.product.name}">Название товара</td>
+        <td th:text="${item.product.price} + ' ₽'">1000 ₽</td>
+        <td th:text="${item.quantity}">1</td>
+        <td th:text="${item.quantity * item.product.price} + ' ₽'">1000 ₽</td>
+        <td>
+            <form th:action="@{'/cart/remove/' + ${item.product.id}}" method="post">
+                <button type="submit" class="btn btn-remove">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="total">
+    Итого: <span th:text="${total} + ' ₽'">0 ₽</span>
+</div>
+
+<form action="/checkout" method="post">
+    <button type="submit" class="btn btn-checkout">Оформить заказ</button>
+</form>
+</body>
+</html>

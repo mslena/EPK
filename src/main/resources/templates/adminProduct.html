@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Продукция</title>
+    <link rel="stylesheet" href="admin.css"/>
+    <link rel="stylesheet" href="navigation.css" />
+</head>
+<body>
+<header>
+    <nav th:insert="~{adminNav::nav}"/>
+</header>
+<h1>Подшипники</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Наименование</th>
+        <th>Артикул</th>
+        <th>Производитель</th>
+        <th>Количество</th>
+        <th>Тип подшипника</th>
+        <th>Цена</th>
+    </tr>
+    </thead>
+    <tbody id="requests-table-body">
+   <!-- <tr>
+        <td th:text = "${product.name}"></td>
+        <td th:text = "${product.articleNumber}"></td>
+        <td th:text = "${product.manufacturer}"></td>
+        <td th:text = "${product.quantity}"></td>
+        <td th:text = "${product.typeProduct}"></td>
+        <td th:text = "${product.price}"></td>
+    </tr>-->
+    <tr>
+        <td>ZF654</td>
+        <td>2439398582</td>
+        <td>Китай</td>
+        <td>25</td>
+        <td>Роликовый</td>
+        <td>5000 ₽</td>
+   </tr>
+   <tr>
+       <td>B5673</td>
+       <td>2439398582</td>
+       <td>Германия</td>
+       <td>10</td>
+       <td>Шариковый</td>
+       <td>10000 ₽</td>
+   </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
