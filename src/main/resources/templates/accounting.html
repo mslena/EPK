@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Учёт продукции - Подшипники</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/navigation.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #cfd8dc;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: black;
+        }
+
+        .report-controls {
+            background: white;
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .report-controls form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .report-controls label {
+            margin-right: 5px;
+        }
+
+        .report-controls input,
+        .report-controls select,
+        .report-controls button {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .report-controls button {
+            background-color: #00838f;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .report-controls button:hover {
+            background-color: #006d75;
+        }
+
+        .chart-section {
+            width: 90%;
+            margin: 40px auto;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav th:insert="~{adminNav::nav}"/>
+</header>
+
+<h1>Учёт продаж подшипников</h1>
+
+
+
+<div class="chart-section">
+    <canvas id="salesChart"></canvas>
+</div>
+
+<script>
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['6204', '6205', '6206'],
+            datasets: [{
+                label: 'Продажи подшипников',
+                data: [150, 230, 180], // Пример данных
+                backgroundColor: [
+                    '#00796b',
+                    '#00838f',
+                    '#0097a7'
+                ],
+                borderRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: 'black'
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Количество продаж по типам подшипников',
+                    color: 'black'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'black'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'black'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

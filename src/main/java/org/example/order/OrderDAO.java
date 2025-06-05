@@ -40,17 +40,11 @@ public class OrderDAO extends NamedParameterJdbcDaoSupport {
     }
 
     public void updateStatus(Order order) {
-        String sql = "update epk.\"order\" set date_cor = :date_cor,\n" +
-                "status = :status where id_order = :order_id";
+        String sql = "update epk.\"order\" set date_cor = :date_cor, status = :status where id_order = :order_id";
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        for (Product item : order.getItems()) {
-            mapSqlParameterSource.addValue("PRODUCT_ID", item.getId());
-            mapSqlParameterSource.addValue("name", item.getName());
-            mapSqlParameterSource.addValue("quantity", item.getQuantity());
-            mapSqlParameterSource.addValue("price", item.getPrice());
-        }
-
-
+        mapSqlParameterSource.addValue("order_id", order.getOrderId());
+        mapSqlParameterSource.addValue("status", order.getStatus());
+        mapSqlParameterSource.addValue("date_cor", order.getDateCor());
 
         int affectedRows = getNamedParameterJdbcTemplate().update(sql, mapSqlParameterSource);
         if (affectedRows != 1) {

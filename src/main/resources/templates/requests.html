@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Заказы</title>
-    <link rel="stylesheet" href="order.css">
-    <link rel="stylesheet" href="/navigation.css">
+    <link rel="stylesheet" href="req.css">
+    <link rel="stylesheet" href="navigation.css">
 </head>
-<body class="orders-body">
+<body>
 
 <header>
     <nav th:insert="~{adminNav::nav}"/>
 </header>
-
+<div  class="orders-body">
 <main class="orders-container">
     <h1>История заказов</h1>
 
@@ -50,24 +50,25 @@
         <div class="order-total">
             <strong>Итого:</strong> <span th:text="${total} + ' ₽'"></span>
         </div>
-        <div class="order-actions">
-            <button type="button" onclick="acceptOrder(this)">Принять</button>
-            <button type="button" onclick="rejectOrder(this)">Отклонить</button>
+        <div class="order-actions" th:if="${request.status == 'В обработке'}">
+            <form th:action="@{'/request/add/' + ${request.orderId}}" method="post">
+                <button type="submit" onclick="acceptOrder(this)">Принять</button>
+            </form>
+            <form th:action="@{'/request/remove/' + ${request.orderId}}" method="post">
+                <button type="submit" onclick="rejectOrder(this)">Отклонить</button>
+            </form>
         </div>
-
-
     </div>
 </main>
+</div>
 <script>
     function acceptOrder(button) {
         const orderId = button.closest('.order-card').querySelector('h2 span').textContent;
         alert("Принят заказ №" + orderId);
-        // TODO: отправка запроса
     }
     function rejectOrder(button) {
         const orderId = button.closest('.order-card').querySelector('h2 span').textContent;
         alert("Отклонён заказ №" + orderId);
-        // TODO: отправка запроса
     }
     window.addEventListener('DOMContentLoaded', function () {
         const orderCards = document.querySelectorAll('.order-card');

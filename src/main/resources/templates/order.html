@@ -27,6 +27,7 @@
 
         <div class="order-details">
             <p><strong>Адрес:</strong> <span th:text="${order.address}"></span></p>
+            <p><strong>Статус:</strong> <span th:text="${order.status}"></span></p>
             <p><strong>Оплата:</strong> <span th:text="${order.payment}"></span></p>
             <p><strong>Комментарий:</strong> <span th:text="${order.note ?: '—'}"></span></p>
         </div>

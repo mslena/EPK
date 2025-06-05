@@ -15,7 +15,7 @@ public class OrderService {
     }
 
     public void updateOrder (Order order) {
-        orderDAO.insertOrder(order);
+        orderDAO.updateStatus(order);
     }
 
     public List<Order> getAllOrder () {
@@ -29,4 +29,5 @@ public class OrderService {
     public List<Order> getOrderByUserId (Long userId) {
         return orderDAO.getOrderByUserId(userId);
     }
+
 }

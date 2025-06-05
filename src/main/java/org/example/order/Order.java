@@ -31,4 +31,10 @@ public class Order {
         this.dateBegin = dateBegin;
         this.dateDelivery = dateDelivery;
     }
+
+    public Order(Long orderId, String status, Date dateCor) {
+        this.orderId = orderId;
+        this.status = status;
+        this.dateCor = dateCor;
+    }
 }

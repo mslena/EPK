@@ -28,32 +28,15 @@
             <option value="year">Год</option>
             <option value="quarter">Квартал</option>
             <option value="month">Месяц</option>
-            <option value="custom">Произвольный</option>
         </select>
-
-        <div id="custom-quarter" style="display: none;">
-            <select name="quarter" id="quarter" >
-                <option value="1">1 Квартал</option>
-                <option value="2">2 Квартал</option>
-                <option value="3">3 Квартал</option>
-                <option value="4">4 Квартал</option>
-            </select>
-        </div>
 
         <div id="custom-year" style="display: none;">
             <select name="year" id="year" >
                 <option value="2025">2025</option>
                 <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
+                <option value="2024">2023</option>
+                <option value="2024">2022</option>
             </select>
-        </div>
-
-        <div id="custom-dates" style="display: none;">
-            <label for="startDate">с:</label>
-            <input type="date" name="startDate" />
-            <label for="endDate">по:</label>
-            <input type="date" name="endDate" />
         </div>
 
         <button type="submit" formaction="/reports/download" formmethod="post">Сформировать отчёт в Excel</button>
@@ -69,7 +52,6 @@
         const period = document.getElementById("period").value;
         document.getElementById("custom-dates").style.display = (period === "custom") ? "block" : "none";
         document.getElementById("custom-year").style.display = (period === "year") ? "block" : "none";
-        document.getElementById("custom-quarter").style.display = (period === "quarter") ? "block" : "none";
     }
 
     // Пример инициализации графика (замени на реальные данные)

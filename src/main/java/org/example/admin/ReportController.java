@@ -21,8 +21,15 @@
     @Controller
     public class ReportController {
 
+        @GetMapping("/accounting")
+        public ModelAndView accounting(HttpServletRequest request) {
+            ModelAndView mav = new ModelAndView("accounting");
+            mav.addObject("requestURI", request.getRequestURI());
+            return mav;
+        }
+
         @GetMapping("/reports")
-        public ModelAndView user(HttpServletRequest request) {
+        public ModelAndView reports(HttpServletRequest request) {
             ModelAndView mav = new ModelAndView("reports");
             mav.addObject("requestURI", request.getRequestURI());
             return mav;
@@ -31,7 +38,7 @@
         @PostMapping("/reports/download")
         public void downloadExcelReport(
                 @RequestParam String reportType,
-                @RequestParam String period,
+                @RequestParam String period, @RequestParam String year,
                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
                 HttpServletResponse response) throws IOException {
@@ -58,7 +65,6 @@
                 }
 
             } else if ("year".equals(period)) {
-                int year = 2025;
                     for (int month = 1; month <= 12; month++) {
                         Row row = sheet.createRow(rowIndex++);
                         row.createCell(0).setCellValue(year + "-" + String.format("%02d", month));
@@ -67,13 +73,12 @@
 
 
             } else if ("quarter".equals(period)) {
-                for (int year = 2025; year >= 2022; year--) {
+
                     for (int q = 1; q <= 4; q++) {
                         Row row = sheet.createRow(rowIndex++);
-                        row.createCell(0).setCellValue("Q" + q + " " + year);
+                        row.createCell(0).setCellValue("Quarter" + q + " " + year);
                         row.createCell(1).setCellValue(getRandomValue(reportType));
                     }
-                }
 
             } else if ("fixed".equals(period)) {
                 LocalDate fixedDate = LocalDate.of(2025, 5, 1);
