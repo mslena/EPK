@@ -12,9 +12,13 @@
            th:classappend="${requestURI.startsWith('/product')} ? 'active' : ''">
             Подшипники
         </a>
-        <a th:href="@{/basket}"
-           th:classappend="${requestURI.startsWith('/basket')} ? 'active' : ''">
+        <a th:href="@{/cart}"
+           th:classappend="${requestURI.startsWith('/cart')} ? 'active' : ''">
             Корзина
+        </a>
+        <a th:href="@{/order}"
+           th:classappend="${requestURI.startsWith('/order')} ? 'active' : ''">
+            Заказы
         </a>
         <a th:href="@{/user}"
            th:classappend="${requestURI.startsWith('/user')} ? 'active' : ''">

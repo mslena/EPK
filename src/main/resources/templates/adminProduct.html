@@ -11,7 +11,7 @@
 <header>
     <nav th:insert="~{adminNav::nav}"/>
 </header>
-<h1>Подшипники</h1>
+<h1>Складская база подшипников</h1>
 
 <table>
     <thead>
@@ -24,31 +24,15 @@
         <th>Цена</th>
     </tr>
     </thead>
-    <tbody id="requests-table-body">
-   <!-- <tr>
+    <tbody id="requests-table-body" th:each = "product : ${product}">
+    <tr>
         <td th:text = "${product.name}"></td>
         <td th:text = "${product.articleNumber}"></td>
         <td th:text = "${product.manufacturer}"></td>
         <td th:text = "${product.quantity}"></td>
         <td th:text = "${product.typeProduct}"></td>
-        <td th:text = "${product.price}"></td>
-    </tr>-->
-    <tr>
-        <td>ZF654</td>
-        <td>2439398582</td>
-        <td>Китай</td>
-        <td>25</td>
-        <td>Роликовый</td>
-        <td>5000 ₽</td>
-   </tr>
-   <tr>
-       <td>B5673</td>
-       <td>2439398582</td>
-       <td>Германия</td>
-       <td>10</td>
-       <td>Шариковый</td>
-       <td>10000 ₽</td>
-   </tr>
+        <td th:text="${product.price + ' руб.'}"></td>
+    </tr>
     </tbody>
 </table>
 

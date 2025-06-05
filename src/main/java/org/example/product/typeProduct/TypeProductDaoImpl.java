@@ -63,7 +63,7 @@ public class TypeProductDaoImpl extends NamedParameterJdbcDaoSupport implements 
     }
 
     @Override
-    public TypeProduct findById(Long id){
+    public TypeProduct findById(int id){
         String sql = "SELECT * FROM epk.\"TypeProduct\" WHERE TYPE_PRODUCT_ID = :TYPE_PRODUCT_ID";
         MapSqlParameterSource params = new MapSqlParameterSource("TYPE_PRODUCT_ID", id);
         List<TypeProduct> result = getNamedParameterJdbcTemplate().query(sql, params, new TypeProductRowMapper());
@@ -89,7 +89,7 @@ public class TypeProductDaoImpl extends NamedParameterJdbcDaoSupport implements 
     private class TypeProductRowMapper implements RowMapper<TypeProduct> {
         @Override
         public TypeProduct mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Long  typeProductId = rs.getLong("TYPE_PRODUCT_ID");
+            int  typeProductId = rs.getInt("TYPE_PRODUCT_ID");
             String name = rs.getString("NAME");
             return new TypeProduct(typeProductId, name);
         }

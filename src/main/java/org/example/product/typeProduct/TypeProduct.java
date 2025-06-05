@@ -6,6 +6,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class TypeProduct {
-    private final Long id;
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    private final int id;
     private final String name;
 }

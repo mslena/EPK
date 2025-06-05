@@ -45,7 +45,7 @@ public class TypeProductServiceImpl implements TypeProductService{
     }
 
     @Override
-    public TypeProduct getTypeProductById(Long id) {
+    public TypeProduct getTypeProductById(int id) {
         return typeProductDao.findById(id);
     }
 }

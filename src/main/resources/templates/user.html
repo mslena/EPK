@@ -14,14 +14,14 @@
 </header>
 <h1>Личный кабинет</h1>
 <main>
-    <div class="user-info">
-        <h2>Добро пожаловать, Иван!</h2>
-        <p><strong>Имя пользователя:</strong> ivan123</p>
-        <p><strong>Email:</strong> ivan@example.com</p>
-        <p><strong>Роль:</strong> Пользователь</p>
+    <div class="user-info" th:each = "users : ${users}">
+        <h2 th:text = "'Добро пожаловать, ' + ${firstName} + '!'"></h2>
+        <p><strong>ФИО:</strong> <span th:text="${users.fullName}"></span></p>
+        <p><strong>Номер телефона:</strong> <span th:text="${users.phoneNumber}"></span></p>
+        <p><strong>Электронная почта:</strong> <span th:text="${users.email}"></span></p>
     </div>
 
-    <a href="/logout" class="btn-logout">Выйти</a>
+    <a href="/login" class="btn-logout">Выйти</a>
 </main>
 
 </body>

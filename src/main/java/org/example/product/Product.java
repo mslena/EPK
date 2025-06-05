@@ -5,13 +5,29 @@ import lombok.Getter;
 import org.example.product.typeProduct.TypeProduct;
 
 @Getter
-@AllArgsConstructor
 public class Product {
-    private final Long id;
-    private final String name;
-    private final String articleNumber;
-    private final String manufacturer;
-    private final int quantity;
-    private final double price;
-    private final TypeProduct typeProduct;
+    private int id;
+    private String name;
+    private String articleNumber;
+    private String manufacturer;
+    private int quantity;
+    private double price;
+    private TypeProduct typeProduct;
+
+    public Product(int id, String name, int quantity, double price) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public Product(int id, String name, String articleNumber, String manufacturer, int quantity, double price, TypeProduct typeProduct) {
+        this.id = id;
+        this.name = name;
+        this.articleNumber = articleNumber;
+        this.manufacturer = manufacturer;
+        this.quantity = quantity;
+        this.price = price;
+        this.typeProduct = typeProduct;
+    }
 }

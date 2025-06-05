@@ -1,9 +1,10 @@
-package org.example.user;
+package org.example.order;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
-import org.example.login.LoginService;
+import org.example.basket.CartService;
+import org.example.basket.CartUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,23 +13,24 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-public class UserController {
+public class OrderController {
 
-    private final LoginService loginService;
+    private final OrderService orderService;
+    private final CartService cartService;
 
-    @GetMapping("/user")
+    @GetMapping("/order")
     public ModelAndView user(HttpServletRequest request, HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
-        UserAuth users = loginService.getUserByLogin(userId);
-        String fullName = users.getFullName();;
-        String firstName = fullName != null && fullName.contains(" ")
-                ? fullName.split(" ")[0]
-                : fullName;
-        ModelAndView mav = new ModelAndView("user");
+        List<CartUser> cart = cartService.getCartUsers(userId);
+        double total = cart.stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
+        ModelAndView mav = new ModelAndView("order");
+        mav.addObject("order", orderService.getOrderByUserId(userId));
         mav.addObject("requestURI", request.getRequestURI());
-        mav.addObject("users", users);
-        mav.addObject("firstName", firstName);
+
         return mav;
     }
+
 
 }

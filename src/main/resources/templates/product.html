@@ -11,9 +11,10 @@
 <header>
     <nav th:insert="~{userNav::nav}"/>
 </header>
+
 <h1>Подшипники</h1>
 
-<table>
+<table id="productTable">
     <thead>
     <tr>
         <th>Наименование</th>
@@ -22,19 +23,136 @@
         <th>Количество</th>
         <th>Тип подшипника</th>
         <th>Цена</th>
+        <th></th>
     </tr>
     </thead>
-    <tbody id="requests-table-body" th:each = "product : ${product}">
+    <tbody id="requests-table-body" th:each="product : ${product}">
     <tr>
-        <td th:text = "${product.name}"></td>
-        <td th:text = "${product.articleNumber}"></td>
-        <td th:text = "${product.manufacturer}"></td>
-        <td th:text = "${product.quantity}"></td>
-        <td th:text = "${product.typeProduct}"></td>
-        <td th:text = "${product.price}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.articleNumber}"></td>
+        <td th:text="${product.manufacturer}"></td>
+        <td th:text="${product.quantity}"></td>
+        <td th:text="${product.typeProduct}"></td>
+        <td th:text="${product.price + ' руб.'}"></td>
+        <td>
+            <div class="cart-controls" th:attr="data-product-id=${product.id}">
+
+            </div>
+        </td>
+
+
     </tr>
     </tbody>
 </table>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const cartControls = document.querySelectorAll('.cart-controls');
+
+        fetch('/cart/items')
+            .then(res => res.json())
+            .then(cartItems => {
+                cartControls.forEach(container => {
+                    const productId = container.getAttribute('data-product-id');
+                    const item = cartItems.find(ci => ci.productId == productId);
+                    if (item) {
+                        renderQuantityControls(container, item.quantity);
+                    } else {
+                        renderAddButton(container);
+                    }
+                });
+            });
+
+        function renderAddButton(container) {
+            container.innerHTML = `<button type="button" class="add-to-cart-btn">Добавить в корзину</button>`;
+            container.querySelector('.add-to-cart-btn').addEventListener('click', () => {
+                fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId: container.getAttribute('data-product-id'),
+                        quantity: 1
+                    })
+                }).then(res => {
+                    if (res.ok) {
+                        showToast("Товар добавлен в корзину");
+                        renderQuantityControls(container, 1);
+                    }
+                });
+            });
+        }
+
+        function renderQuantityControls(container, initialQuantity) {
+            container.innerHTML = `
+            <button type="button" class="decrease-btn">-</button>
+            <span class="quantity">${initialQuantity}</span>
+            <button type="button" class="increase-btn">+</button>
+        `;
+            setupQuantityButtons(container, parseInt(initialQuantity));
+        }
+
+        function setupQuantityButtons(container, quantity) {
+            const minusBtn = container.querySelector('.decrease-btn');
+            const plusBtn = container.querySelector('.increase-btn');
+            const quantityDisplay = container.querySelector('.quantity');
+            const productId = container.getAttribute('data-product-id');
+
+            plusBtn.addEventListener('click', () => {
+                quantity++;
+                quantityDisplay.textContent = quantity;
+                updateCart(productId, quantity);
+            });
+
+            minusBtn.addEventListener('click', () => {
+                if (quantity > 1) {
+                    quantity--;
+                    quantityDisplay.textContent = quantity;
+                    updateCart(productId, quantity);
+                } else {
+                    // Удалить из корзины
+                    fetch('/cart/remove', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ productId })
+                    }).then(res => {
+                        if (res.ok) {
+                            showToast("Товар удалён из корзины");
+                            renderAddButton(container);
+                        }
+                    });
+                }
+            });
+        }
+
+        function updateCart(productId, quantity) {
+            fetch('/cart/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId, quantity })
+            }).then(res => {
+                if (res.ok) {
+                    showToast("Количество обновлено");
+                }
+            });
+        }
+
+        // Уведомление
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+    });
+</script>
+
 
 </body>
 </html>

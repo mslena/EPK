@@ -7,5 +7,5 @@ public interface TypeProductService {
     String updateTypeProduct(TypeProduct product);
     String deleteTypeProduct(TypeProduct product);
     List<TypeProduct> getAllTypeProduct();
-    TypeProduct getTypeProductById(Long id);
+    TypeProduct getTypeProductById(int id);
 }

@@ -40,3 +40,46 @@ th {
 tr:nth-child(even) {
     background-color: #f9f9f9;
 }
+
+.cart-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.cart-controls button {
+    background-color: #008B8B;
+    color: white;
+    border: none;
+    font-size: 17.5px;
+    border-radius: 5px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.cart-controls .quantity {
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Уведомление */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+

@@ -2,6 +2,7 @@ package org.example.login;
 
 import lombok.AllArgsConstructor;
 import org.example.user.UserAuth;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,21 +13,9 @@ public class LoginService {
 
     private final LoginDao loginDao;
 
-    public String getLogin(String login, String password) {
-        List<UserAuth> users = loginDao.getAllUser();
-
-        if ("admin".equals(login) && "admin".equals(password)) {
-            return "redirect:/requests";
-        } else {
-            for (UserAuth user : users) {
-                if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
-                    return "redirect:/user";
-                }
-            }
-
-        }
-
-        return "login";
+    public UserAuth getUserByLogin(Long userId) {
+        List<UserAuth> userAuths = loginDao.getUserByLogin(userId);
+        return userAuths.get(0);
     }
 
     public String insertUser(UserAuth user) {

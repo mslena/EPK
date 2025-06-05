@@ -7,5 +7,5 @@ public interface TypeProductDao {
     void updateTypeProduct(TypeProduct product);
     void deleteTypeProduct(TypeProduct product);
     List<TypeProduct> getAllTypeProduct();
-   TypeProduct findById(Long id);
+   TypeProduct findById(int id);
 }

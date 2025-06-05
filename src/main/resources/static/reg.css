@@ -5,7 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    margin: 15px;
 }
 
 .login-logo {
@@ -21,7 +21,7 @@ body {
     border-radius: 16px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     width: 100%;
-    max-width: 400px;
+    max-width: 700px;
 }
 
 .form-container h2 {
@@ -80,4 +80,16 @@ input:focus {
     padding: 10px;
     border-radius: 8px;
     font-size: 14px;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    display: none;
 }

@@ -1,6 +1,7 @@
 package org.example.login;
 
 import org.example.product.Product;
+import org.example.product.ProductDaoImpl;
 import org.example.user.UserAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -23,15 +24,25 @@ public class LoginDao extends NamedParameterJdbcDaoSupport {
         setJdbcTemplate(jdbcTemplate);
     }
 
+
     public List<UserAuth> getAllUser() {
-        return getJdbcTemplate().query("SELECT * FROM epk.\"User\"", new LoginDao.UserResultSetExtractor());
+        return getJdbcTemplate().query("SELECT * FROM epk.\"User\"", new UserResultSetExtractor());
+    }
+
+    public List<UserAuth> getUserByLogin(Long userId) {
+        String sql = "SELECT * FROM epk.\"User\" WHERE user_id = :user_id";
+        MapSqlParameterSource params = new MapSqlParameterSource("user_id", userId);
+        return getNamedParameterJdbcTemplate().query(sql, params, new UserRowMapper());
     }
 
     public void insertUser(UserAuth userAuth) {
-        String sql = "insert into epk.\"User\" (login, password) values (:login, :password)";
+        String sql = "insert into epk.\"User\" (login, password, full_name, phone_number, email) values (:login, :password, :full_name, :phone_number, :email)";
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("login", userAuth.getLogin());
         mapSqlParameterSource.addValue("password", userAuth.getPassword());
+        mapSqlParameterSource.addValue("full_name", userAuth.getPassword());
+        mapSqlParameterSource.addValue("phone_number", userAuth.getPassword());
+        mapSqlParameterSource.addValue("email", userAuth.getPassword());
         getNamedParameterJdbcTemplate().update(sql, mapSqlParameterSource);
     }
 
@@ -55,9 +66,13 @@ public class LoginDao extends NamedParameterJdbcDaoSupport {
     private class UserRowMapper implements RowMapper<UserAuth> {
         @Override
         public UserAuth mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Long userId = rs.getLong("user_id");
             String login = rs.getString("login");
             String password = rs.getString("password");
-            return new UserAuth(login, password);
+            String fullName = rs.getString("full_name");
+            String phoneNumber = rs.getString("phone_number");
+            String email = rs.getString("email");
+            return new UserAuth(userId, login, password, fullName, phoneNumber, email);
         }
     }
 }

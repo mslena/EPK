@@ -24,7 +24,12 @@ import java.util.List;
 @Repository("productDao")
 @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = true)
 public class ProductDaoImpl extends NamedParameterJdbcDaoSupport implements ProductDao{
-    private TypeProductService typeProductService;
+    private final TypeProductService typeProductService;
+
+    @Autowired
+    public ProductDaoImpl(TypeProductService typeProductService) {
+        this.typeProductService = typeProductService;
+    }
 
     @Autowired
     void setJdbcTemplateVop(JdbcTemplate jdbcTemplate) {
@@ -119,8 +124,8 @@ public class ProductDaoImpl extends NamedParameterJdbcDaoSupport implements Prod
         @Override
         public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
             TypeProduct typeProduct;
-            Long productId = rs.getLong("PRODUCT_ID");
-            Long typeProductId = rs.getLong("TYPE_PRODUCT_ID");
+            int productId = rs.getInt("PRODUCT_ID");
+            int typeProductId = rs.getInt("TYPE_PRODUCT_ID");
             if(typeProductId != 0){
                 typeProduct = typeProductService.getTypeProductById(typeProductId);
             }else {
@@ -128,7 +133,7 @@ public class ProductDaoImpl extends NamedParameterJdbcDaoSupport implements Prod
             }
             String name = rs.getString("NAME");
             String articleNumber = rs.getString("ARTICLE_NUMBER");
-            String manufacturer = rs.getString("MANUFACTURE");
+            String manufacturer = rs.getString("MANUFACTURER");
             int quantity = rs.getInt("QUANTITY");
             double price = rs.getDouble("PRICE");
             return new Product(productId, name, articleNumber, manufacturer, quantity, price, typeProduct);
