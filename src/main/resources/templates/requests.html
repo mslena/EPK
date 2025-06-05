@@ -1,56 +1,99 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Управление заявками</title>
-    <link rel="stylesheet" href="admin.css"/>
-    <link rel="stylesheet" href="navigation.css" />
+    <meta charset="UTF-8">
+    <title>Заказы</title>
+    <link rel="stylesheet" href="order.css">
+    <link rel="stylesheet" href="/navigation.css">
 </head>
-<body>
+<body class="orders-body">
+
 <header>
     <nav th:insert="~{adminNav::nav}"/>
 </header>
-<h1>Управление заявками</h1>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID заявки</th>
-        <th>Имя пользователя</th>
-        <th>Наименование подшипника</th>
-        <th>Количество</th>
-        <th>Цена</th>
-        <th>Статус</th>
-        <th>Действия</th>
-    </tr>
-    </thead>
-    <tbody id="requests-table-body">
-    <tr>
-        <td>1</td>
-        <td>Иван Иванов</td>
-        <td>Роликовый подшипник</td>
-        <td>2</td>
-        <td>2000 ₽</td>
-        <td>Ожидает</td>
-        <td>
-            <button class="btn-approve" onclick="processRequest(1, 'approve')">Принять</button>
-            <button class="btn-reject" onclick="processRequest(1, 'reject')">Отклонить</button>
-        </td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Мария Петрова</td>
-        <td>Роликовый подшипник</td>
-        <td>5</td>
-        <td>5000 ₽</td>
-        <td>Ожидает</td>
-        <td>
-            <button class="btn-approve" >Принять</button>
-            <button class="btn-reject" >Отклонить</button>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<main class="orders-container">
+    <h1>История заказов</h1>
+
+    <div th:each="request : ${request}" class="order-card">
+        <div class="order-header">
+            <h2>Заказ № <span th:text="${request.orderId}"></span></h2>
+            <p>Дата: <span th:text="${#dates.format(request.dateBegin, 'dd.MM.yyyy HH:mm')}"></span></p>
+        </div>
+
+        <div class="order-details">
+            <p><strong>ФИО:</strong> <span th:text="${request.fullName}"></span></p>
+            <p><strong>Адрес:</strong> <span th:text="${request.address}"></span></p>
+            <p><strong>Оплата:</strong> <span th:text="${request.payment}"></span></p>
+            <p><strong>Статус:</strong> <span th:text="${request.status}"></span></p>
+            <p><strong>Комментарий:</strong> <span th:text="${request.note ?: '—'}"></span></p>
+        </div>
+
+        <table class="order-items">
+            <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Кол-во</th>
+                <th>Сумма</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${request.items}">
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.price} + ' ₽'"></td>
+                <td th:text="${item.quantity}"></td>
+                <td th:text="${item.price * item.quantity} + ' ₽'"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="order-total">
+            <strong>Итого:</strong> <span th:text="${total} + ' ₽'"></span>
+        </div>
+        <div class="order-actions">
+            <button type="button" onclick="acceptOrder(this)">Принять</button>
+            <button type="button" onclick="rejectOrder(this)">Отклонить</button>
+        </div>
+
+
+    </div>
+</main>
+<script>
+    function acceptOrder(button) {
+        const orderId = button.closest('.order-card').querySelector('h2 span').textContent;
+        alert("Принят заказ №" + orderId);
+        // TODO: отправка запроса
+    }
+    function rejectOrder(button) {
+        const orderId = button.closest('.order-card').querySelector('h2 span').textContent;
+        alert("Отклонён заказ №" + orderId);
+        // TODO: отправка запроса
+    }
+    window.addEventListener('DOMContentLoaded', function () {
+        const orderCards = document.querySelectorAll('.order-card');
+
+        orderCards.forEach(card => {
+            const rows = card.querySelectorAll('.order-items tbody tr');
+            let total = 0;
+
+            rows.forEach(row => {
+                const sumCell = row.cells[3];
+                if (sumCell) {
+                    const text = sumCell.textContent.replace('₽', '').replace(/\s/g, '').trim();
+                    const amount = parseFloat(text);
+                    if (!isNaN(amount)) {
+                        total += amount;
+                    }
+                }
+            });
+
+            const totalSpan = card.querySelector('.order-total span');
+            if (totalSpan) {
+                totalSpan.textContent = total.toLocaleString('ru-RU') + ' ₽';
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

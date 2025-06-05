@@ -40,9 +40,9 @@ public class LoginDao extends NamedParameterJdbcDaoSupport {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("login", userAuth.getLogin());
         mapSqlParameterSource.addValue("password", userAuth.getPassword());
-        mapSqlParameterSource.addValue("full_name", userAuth.getPassword());
-        mapSqlParameterSource.addValue("phone_number", userAuth.getPassword());
-        mapSqlParameterSource.addValue("email", userAuth.getPassword());
+        mapSqlParameterSource.addValue("full_name", userAuth.getFullName());
+        mapSqlParameterSource.addValue("phone_number", userAuth.getPhoneNumber());
+        mapSqlParameterSource.addValue("email", userAuth.getEmail());
         getNamedParameterJdbcTemplate().update(sql, mapSqlParameterSource);
     }
 

@@ -2,6 +2,8 @@ package org.example.user;
 
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 public class UserAuth {
     private Long userId;
@@ -37,5 +39,18 @@ public class UserAuth {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAuth userAuth = (UserAuth) o;
+        return Objects.equals(login, userAuth.login);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login);
     }
 }

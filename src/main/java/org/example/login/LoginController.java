@@ -67,26 +67,45 @@ public class LoginController {
 
     @PostMapping("/registration")
     public ModelAndView processRegistration(@RequestParam String username,
-                                      @RequestParam String password,
-                                      @RequestParam String confirmPassword,
-                                      @RequestParam String surname, @RequestParam String name,
-                                      @RequestParam String patronymic, @RequestParam String phoneNumber,
-                                      @RequestParam String email,
-                                                        RedirectAttributes redirectAttributes) {
+                                            @RequestParam String password,
+                                            @RequestParam String confirmPassword,
+                                            @RequestParam String surname,
+                                            @RequestParam String name,
+                                            @RequestParam String patronymic,
+                                            @RequestParam String phoneNumber,
+                                            @RequestParam String email,
+                                            RedirectAttributes redirectAttributes) {
+
         ModelAndView modelAndView = new ModelAndView();
-        if (password.equals(confirmPassword)) {
-            UserAuth userAuth = new UserAuth(username, password, surname + name + patronymic, phoneNumber, email);
-            String message = loginService.insertUser(userAuth);
-            redirectAttributes.addFlashAttribute("message", message);
-            modelAndView.setViewName("redirect:/login");
+
+        // Проверка на существующий логин
+        List<UserAuth> userAuths = loginDao.getAllUser();
+        for (UserAuth user : userAuths) {
+            if (user.getLogin().equals(username)) {
+                modelAndView.setViewName("registration");
+                modelAndView.addObject("error", "Пользователь с таким логином уже существует");
+                modelAndView.addObject("username", username);
+                return modelAndView;
+            }
         }
-        else {
+
+        // Проверка совпадения паролей
+        if (!password.equals(confirmPassword)) {
             modelAndView.setViewName("registration");
             modelAndView.addObject("error", "Пароли должны совпадать");
             modelAndView.addObject("username", username);
+            return modelAndView;
         }
+
+        // Создание нового пользователя
+        String fullName = surname + " " + name + " " + patronymic;
+        UserAuth newUser = new UserAuth(username, password, fullName, phoneNumber, email);
+        String message = loginService.insertUser(newUser);
+        redirectAttributes.addFlashAttribute("message", message);
+        modelAndView.setViewName("redirect:/login");
 
         return modelAndView;
     }
+
 
 }
